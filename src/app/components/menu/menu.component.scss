@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 1200px;
+  margin: 10px auto;
+  gap: 10px;
+}
+
+.level-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  border-radius: 10px;
+  background: #222;
+  color: #aaa;
+  cursor: pointer;
+}

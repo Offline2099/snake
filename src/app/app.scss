@@ -1,0 +1,33 @@
+$header-height: 50px;
+$footer-height: 100px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh + $footer-height);
+}
+
+header,
+main,
+footer {
+  display: flex;
+  width: 100%;
+}
+
+header {
+  justify-content: center;
+  height: $header-height;
+  background-color: #222;
+  color: #bbb;
+}
+
+main {
+  flex-direction: column;
+}
+
+footer {
+  height: $footer-height;
+  background-color: #222;
+  margin-top: auto;
+}

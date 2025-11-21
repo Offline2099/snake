@@ -1,0 +1,360 @@
+@use 'sass:color';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+
+h2 {
+  text-align: center;
+  color: #bbb;
+}
+
+.wrapper {
+  display: flex;
+  flex-shrink: 1;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+.side-column,
+.main-column {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  color: #aaa;
+}
+
+.side-column {
+  width: 250px;
+  padding: 10px;
+  div {
+    border-bottom: 1px solid #222;
+  }
+}
+
+h3 {
+  margin-top: 50px;
+  border-bottom: 1px solid #444;
+}
+
+
+.progress {
+  display: flex;
+  max-width: calc(512px + 32px);
+  padding: 5px 10px;
+  gap: 10px;
+  background-color: #222;
+  
+}
+
+.label {
+  display: flex;
+  color: #bbb;
+  &.value {
+    margin-left: auto;
+  }
+  .absolute {
+    width: 80px;
+    text-align: center;
+  }
+  .percentage {
+    width: 50px;
+    text-align: center;
+  }
+}
+
+.progress-bar-outer {
+  display: flex;
+  flex-grow: 1;
+  border-radius: 5px;
+  background-color: #333;
+}
+
+.progress-bar-inner {
+  background-color: green;
+  border-radius: 5px;
+}
+
+
+
+$game-block-size: 16px;
+$rock-outline: 1px solid #444;
+$wall-border: 1px solid #333;
+
+.game-area-wrapper {
+  margin-top: 5px;
+  padding: $game-block-size;
+  border-radius: 10px;
+  background: url('/textures/rock.webp');
+  background-size: $game-block-size;
+}
+
+.game-area {
+  position: relative;
+  width: 512px;
+  height: 512px;
+  background: 
+    repeating-linear-gradient(
+      transparent 0, transparent calc($game-block-size - 1px),
+      #444 $game-block-size
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0, transparent calc($game-block-size - 1px),
+      #444 $game-block-size
+    ),
+    radial-gradient(hsl(145, 50%, 7%), #000);
+}
+
+.game-block {
+  display: flex;
+  position: absolute;
+  width: $game-block-size;
+  height: $game-block-size;
+}
+
+.rock {
+  border-radius: 2px;
+  background: url('/textures/rock.webp');
+  background-size: $game-block-size;
+  outline: $rock-outline;
+  transform: scale(0.85);
+}
+
+
+$wall-scale: 0.8;
+$wall-radius: calc($game-block-size / 2);
+
+.wall {
+  border: $wall-border;
+  background: url('/textures/rock.webp');
+  background-size: $game-block-size;
+  &.horizontal {
+    border-left: none;
+    border-right: none;
+    transform: scaleY($wall-scale);
+  }
+  &.vertical {
+    border-top: none;
+    border-bottom: none;
+    transform: scaleX($wall-scale);
+  }
+  &.end-top {
+    border-right: none;
+    border-radius: $wall-radius $wall-radius 0 0;
+    transform: scaleX($wall-scale) translateY(2px);
+  }
+  &.end-bottom {
+    border-left: none;
+    border-radius: 0 0 $wall-radius $wall-radius;
+    transform: scaleX($wall-scale) translateY(-2px);
+  }
+  &.end-left {
+    border-right: none;
+    border-radius: $wall-radius 0 0 $wall-radius;
+    transform: scaleY($wall-scale) translateX(2px);
+  }
+  &.end-right {
+    border-left: none;
+    border-radius: 0 $wall-radius $wall-radius 0;
+    transform: scaleY($wall-scale) translateX(-2px);
+  }
+}
+
+
+.portal-entrance {
+  border-radius: 50%;
+  background: url('/svg/portal.svg'), deepskyblue;
+  background-size: $game-block-size;
+  //box-shadow: 0 0 10px 10px color.adjust(deepskyblue, $alpha: -0.8);
+  transform: scaleX(0.75) scaleY(.9);
+  opacity: .6;
+}
+
+.portal-exit {
+  border-radius: 50%;
+  background: url('/svg/portal.svg'), #ff9900;
+  background-size: $game-block-size;
+  transform: scaleX(0.75) scaleY(.9);
+  opacity: .7;
+}
+
+.pile {
+  background: url('/svg/poo.svg');
+  background-size: 100%;
+  opacity: .9;
+}
+
+.fire {
+  background: url('/svg/fire.svg');
+  background-size: 100%;
+  opacity: .7;
+}
+
+@mixin rotate-to-direction {
+  &.up {
+    transform: rotate(-90deg);
+  }
+  &.down {
+    transform: rotate(90deg);
+  }
+  &.left {
+    transform: rotate(180deg);
+  }
+}
+
+$snake-color: #007777;
+$snake-eyes-color: #00cc88;
+
+$snake-dead-color: maroon;
+$snake-success-color: green;
+
+@mixin snake-box-shadow($color) {
+  box-shadow: 
+    0 0 2px 2px $color inset,
+    0 0 8px 8px color.adjust($color, $alpha: -0.5) inset;
+}
+
+.snake-block {
+  background: url('/textures/scales.webp'), teal;
+  background-size: $game-block-size;
+  @include snake-box-shadow($snake-color);
+  &.head {
+    clip-path: inset(1px 0 1px 0 round 0 7px 7px 0);
+    @include rotate-to-direction;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      left: 45%;
+      width: 25%;
+      height: 20%;
+      background: $snake-eyes-color;
+      border-radius: 50%;
+    }
+    &:before {
+      top: 25%;
+    }
+    &:after {
+      bottom: 25%;
+    }
+  }
+  &.tail {
+    clip-path: inset(1px 0 1px 0 round 7px 0 0 7px);
+    @include rotate-to-direction;
+  }
+  &.horizontal {
+    clip-path: inset(1px 0);    
+  }
+  &.vertical {
+    clip-path: inset(0 1px);
+  }
+  &.round-top-left,
+  &.round-top-right,
+  &.round-bottom-left,
+  &.round-bottom-right {
+    clip-path: path('M 0 1 A 1 1 0 0 0 1 0 L 15 0 L 15 7.5 C 15 11.75 11.75 15 7.5 15 L 0 15 Z');
+  }
+  &.round-top-left {
+    transform: rotate(180deg);
+  }
+  &.round-top-right {
+    transform: rotate(-90deg);
+  }
+  &.round-bottom-left {
+    transform: rotate(90deg);
+  }
+  .fail & {
+    @include snake-box-shadow($snake-dead-color);
+  }
+  .success & {
+    @include snake-box-shadow($snake-success-color);
+  }
+}
+
+.food-block {
+  border-radius: 50%;
+  background-color: green;
+  transform: scale(.8);
+  opacity: .8;
+}
+
+
+.controls {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  & > button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #aaa;
+    cursor: pointer;
+  }
+}
+
+
+
+
+$container-diameter: 88px;
+$button-width: calc($container-diameter / 2);
+$button-height: 26px;
+
+.direction-button-container {
+  position: relative;
+  width: $container-diameter;
+  height: $container-diameter;
+  border-radius: 50%;
+  background-color: #222;
+  color: #bbb;
+  overflow: hidden;
+  button {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $button-width;
+    height: $button-height;
+    background-color: #333;
+    clip-path: polygon(
+      0 calc($button-height / 2), calc($button-height / 2) 0, 
+      100% 0, 100% 100%, 
+      calc($button-height / 2) 100%, 0 calc($button-height / 2)
+    );
+    &:after {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      width: 50%;
+      height: 50%;
+      background-color: #aaa;
+      clip-path: polygon(0 0, 100% 50%, 0 100%, 0 100%, 25% 50%, 0% 0%);
+      transform: scale(0.8) translateX(calc(-1 * $button-width / 8));
+    }
+  }
+  .up {
+    top: calc($button-width / 2 - $button-height / 2 - 1px);
+    left: calc(50% - $button-width / 2);
+    transform: rotate(-90deg);
+  }
+  .down {
+    top: calc(50% + $button-width / 2 - $button-height / 2 + 1px);
+    left: calc(50% - $button-width / 2);
+    transform: rotate(90deg);
+  }
+  .left {
+    top: calc(50% - $button-height / 2);
+    left: -1px;
+    transform: rotate(180deg);
+  }
+  .right {
+    top: calc(50% - $button-height / 2);
+    left: calc(50% + 1px);
+  }
+}

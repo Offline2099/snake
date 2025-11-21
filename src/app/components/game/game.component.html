@@ -1,0 +1,173 @@
+<!-- Level Header -->
+<div>
+  <h2>Level {{levelId()}}: {{level.name}}</h2>
+</div>
+
+<div class="wrapper">
+
+  <div class="side-column">
+    <h3>Snake</h3>
+    <div>Current length: {{snake.body.length + 2}}</div>
+    <div>Distance travelled: {{stepsDone}}</div>
+    <div>Food consumed: {{foodConsumed}}</div>
+    <div>Piles hit: {{pilesHit}}</div>
+    <div>Fires hit: {{firesHit}}</div>
+    <div>Total damage: {{damageTaken}}</div>
+    <div>Nature damage: {{natureDamageTaken}}</div>
+    <div>Fire damage: {{fireDamageTaken}}</div>
+    <h3>Environment</h3>
+    <div>Elapsed time: {{timeElapsed}}</div>
+    <!-- <div>Empty space blocks: </div> -->
+    <div>Food total: {{level.food.length}}</div>
+    <div>Food spawn rate: {{level.settings.food.spawnOnConsumption}}</div>
+    <div>Hazards total: {{piles + fires}}</div>
+    <div>Piles: {{piles}}</div>
+    <div>Fires: {{fires}}</div>
+    <div>Obstructed area: {{level.constraints.obstacles.length}}</div>
+    <div>Portals: {{level.portals?.length || 0}}</div>
+  </div>
+
+  <div class="main-column">
+
+    <!-- Level Progress -->
+    <div class="progress">
+      <div class="label">Progress: </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" [ngStyle]="{'width': percentage + '%'}"></div>
+      </div>
+      <div class="label value">
+        <div class="absolute">{{progress}} / {{level.settings.goal}}</div>
+        <div class="percentage">({{percentage}}%)</div>
+      </div>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-area-wrapper">
+    
+      <div
+        class="game-area"
+        [ngClass]="{
+          'fail': isFail,
+          'success': isVictory
+        }">
+
+        <!-- Obstacles -->
+        @for (obstacle of level.constraints.obstacles; track $index) {
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{
+              position: obstacle.position,
+              class: (obstacle.type ===  ObstacleType.rock ? 'rock': '')
+                + (obstacle.type ===  ObstacleType.wallHorizontal ? 'wall horizontal' : '')
+                + (obstacle.type ===  ObstacleType.wallVertical ? 'wall vertical' : '')
+                + (obstacle.type ===  ObstacleType.wallEndTop ? 'wall end-top' : '')
+                + (obstacle.type ===  ObstacleType.wallEndBottom ? 'wall end-bottom' : '')
+                + (obstacle.type ===  ObstacleType.wallEndLeft ? 'wall end-left' : '')
+                + (obstacle.type ===  ObstacleType.wallEndRight ? 'wall end-right' : '')
+            }"
+          />
+        }
+
+        <!-- Portals -->
+        @for (portal of level.portals; track $index) {
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{ position: portal.entrance, class: 'portal-entrance' }"
+          />
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{ position: portal.exit, class: 'portal-exit' }"
+          />
+        }
+
+        <!-- Enemies -->
+        @for (enemy of level.enemies; track enemy.id) {
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{ position:
+              enemy.position,
+              class: (enemy.type === EnemyType.pile ? 'pile' : '')
+                + (enemy.type === EnemyType.fire ? 'fire' : '')
+            }"
+          />
+        }
+
+        <!-- Food -->
+        @for (food of level.food; track food.id) {
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{ position: food.position, class: 'food-block' }"
+          />
+        }
+
+        <!-- Snake -->
+        <ng-template
+          [ngTemplateOutlet]="gameBlock"
+          [ngTemplateOutletContext]="{
+            position: snake.head.currentPosition,
+            class: 'snake-block head ' 
+              + (snake.head.currentDirection === Direction.up ? 'up' : '')
+              + (snake.head.currentDirection === Direction.down ? 'down' : '')
+              + (snake.head.currentDirection === Direction.left ? 'left' : '')
+              + (snake.head.currentDirection === Direction.right ? 'right' : '')
+          }"
+        />
+        @for (block of snake.body; track $index) {
+          <ng-template
+            [ngTemplateOutlet]="gameBlock"
+            [ngTemplateOutletContext]="{
+              position: block.currentPosition,
+              class: 'snake-block' 
+                + (block.type === BlockType.horizontal ? ' horizontal' : '')
+                + (block.type === BlockType.vertical ? ' vertical' : '')
+                + (block.type === BlockType.betweenTopAndLeft ? ' round-bottom-right' : '')
+                + (block.type === BlockType.betweenTopAndRight ? ' round-bottom-left' : '')
+                + (block.type === BlockType.betweenBottomAndLeft ? ' round-top-right' : '')
+                + (block.type === BlockType.betweenBottomAndRight ? ' round-top-left' : '')
+            }"
+          />
+        }
+        <ng-template
+          [ngTemplateOutlet]="gameBlock"
+          [ngTemplateOutletContext]="{
+            position: snake.tail.currentPosition,
+            class: 'snake-block tail ' 
+              + (snake.tail.currentDirection === Direction.up ? 'up' : '')
+              + (snake.tail.currentDirection === Direction.down ? 'down' : '')
+              + (snake.tail.currentDirection === Direction.left ? 'left' : '')
+              + (snake.tail.currentDirection === Direction.right ? 'right' : '')
+          }"
+        />
+
+      </div>
+    </div>
+
+    <!-- Level Controls -->
+    <div class="controls">
+      <button type="button" (click)="startTimer()">Start</button>
+      <button type="button" (click)="stopTimer()">Pause</button>
+      <button type="button" (click)="resetGame()">Reset</button>
+      <div class="direction-button-container">
+        <button type="button" class="up" (click)="changeDirection(Direction.up)"></button>
+        <button type="button" class="down" (click)="changeDirection(Direction.down)"></button>
+        <button type="button" class="left" (click)="changeDirection(Direction.left)"></button>
+        <button type="button" class="right" (click)="changeDirection(Direction.right)"></button>
+      </div>
+      <button type="button" (click)="startNextLevel()">Next Level</button>
+      <button type="button" (click)="showMenu()">Menu</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Game Block Template -->
+<ng-template #gameBlock let-position="position" let-class="class"> 
+  <div
+    class="game-block {{class}}"
+    [ngStyle]="{
+      'left.px': BLOCK_SIZE * position.x,
+      'bottom.px': BLOCK_SIZE * position.y
+    }">
+  </div>
+</ng-template>

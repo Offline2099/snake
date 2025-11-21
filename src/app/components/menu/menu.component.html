@@ -1,0 +1,8 @@
+<div class="wrapper">
+  @for (level of levels; track $index) {
+    <div class="level-block" (click)="selectLevel(level)">
+      <div>Level {{level}}</div>
+      <div>{{LEVELS[level].name}}</div>
+    </div>
+  }
+</div>>

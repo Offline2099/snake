@@ -1,11 +1,25 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { GameComponent } from './components/game/game.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [MenuComponent, GameComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('snake');
+
+  levelId: number = 1;
+  isMenuActive: boolean = true;
+
+  showMenu(): void {
+    this.isMenuActive = true;
+  }
+
+  startLevel(id: number): void {
+    this.levelId = id;
+    this.isMenuActive = false;
+  }
+
 }
