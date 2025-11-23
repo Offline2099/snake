@@ -1,5 +1,6 @@
-import { EnemyType, Level } from '../../types/level';
 import { Direction } from '../direction.enum';
+import { EnemyType } from '../blocks/level/enemy-type.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_7: Partial<Level> = {
   name: 'The Temple',

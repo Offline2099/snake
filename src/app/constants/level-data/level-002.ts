@@ -1,7 +1,8 @@
-import { EnemyType, Level } from '../../types/level';
+import { EnemyType } from '../blocks/level/enemy-type.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_2: Partial<Level> = {
-  name: 'Rocks and Stuff',
+  name: 'First Time Outside',
   settings: {
     goal: 40,
     food: {

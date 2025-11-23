@@ -1,5 +1,5 @@
-import { Level } from '../../types/level';
 import { Direction } from '../direction.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_8: Partial<Level> = {
   name: 'Portal Time',

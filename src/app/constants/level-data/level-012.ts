@@ -1,4 +1,5 @@
-import { EnemyType, Level } from '../../types/level';
+import { EnemyType } from '../blocks/level/enemy-type.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_12: Partial<Level> = {
   name: 'Order and Chaos',

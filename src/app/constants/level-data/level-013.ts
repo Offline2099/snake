@@ -1,5 +1,7 @@
-import { EnemyType, Level } from '../../types/level';
 import { Direction } from '../direction.enum';
+import { EnemyType } from '../blocks/level/enemy-type.enum';
+import { FoodType } from '../blocks/level/food-type.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_13: Partial<Level> = {
   name: 'Tricky Corners',
@@ -32,7 +34,7 @@ export const LEVEL_13: Partial<Level> = {
     { entrance: { x: 2, y: 22 }, exit: { x: 30, y: 27 } }
   ],
   food: [
-    { id: '4-28', position: { x: 4, y: 28 } },
-    { id: '29-29', position: { x: 29, y: 29 } }
+    { type: FoodType.normal, position: { x: 4, y: 28 } },
+    { type: FoodType.normal, position: { x: 29, y: 29 } }
   ]
 }

@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
+// Constants & Enums
 import { Direction } from '../constants/direction.enum';
-import { Position } from '../types/position.interface';
-import { Constraints, Level, Portal } from '../types/level';
-import { Snake, SnakeBlock, HeadBlock, BodyBlock, TailBlock, SnakeOptions, SnakeBodyBlockType } from '../types/snake';
+import { SnakeBodyBlockType } from '../constants/blocks/snake/snake-body-block-type-enum';
+import { DEFAULT_SNAKE, SNAKE_TRAJECTORY } from '../constants/defaults';
+// Interfaces & Types
+import { Position } from '../types/general/position.interface';
+import { Line } from '../types/general/line.interface';
+import { SnakeOptions } from '../types/snake/snake-options.interface';
+import { Snake } from '../types/snake/snake.interface.ts';
+import { SnakeBlock } from '../types/snake/snake-block.interface';
+import { HeadBlock } from '../types/snake/head-block.interface';
+import { BodyBlock } from '../types/snake/body-block.interface';
+import { TailBlock } from '../types/snake/tail-block.interface';
+import { Portal } from '../types/level/portal.interface';
+// Services
 import { UtilityService } from './utility.service';
-
-const DEFAULT_SNAKE_OPTIONS: SnakeOptions = {
-  headPosition: {
-    x: 2,
-    y: 0
-  },
-  direction: Direction.right,
-  length: 3
-}
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class SnakeService {
   //===========================================================================
 
   createSnake(snakeOptions?: Partial<SnakeOptions>): Snake {
-    const options: SnakeOptions = { ...DEFAULT_SNAKE_OPTIONS, ...snakeOptions };
+    const options: SnakeOptions = { ...this.utility.deepCopy(DEFAULT_SNAKE), ...snakeOptions };
     const oppositeDirection: Direction = this.utility.oppositeDirection(options.direction);
     const tailPosition: Position =
       this.utility.shiftPosition(options.headPosition, oppositeDirection, options.length - 1);
@@ -75,6 +77,14 @@ export class SnakeService {
   //  Snake Utility
   //===========================================================================
 
+  snakeTrajectory(snake: Snake): Line {
+    return {
+      position: snake.head.currentPosition,
+      direction: snake.head.currentDirection,
+      length: SNAKE_TRAJECTORY
+    }
+  }
+
   private bodyBlockType(toPrevious: Direction, toNext: Direction): SnakeBodyBlockType {
     const adjacent: Direction[] = [toPrevious, toNext];
     const includesBoth = (a: Direction, b: Direction) => {
@@ -102,31 +112,6 @@ export class SnakeService {
   //  Snake Update
   //===========================================================================
 
-  changeSnakeDirection(snake: Snake, level: Level, direction: Direction): void {
-    if (snake.head.currentDirection === this.utility.oppositeDirection(direction)) return;
-    const nextHeadPosition: Position = 
-      this.utility.shiftPosition(snake.head.currentPosition, direction);
-    if (this.areConstraintsHit(level.constraints, nextHeadPosition)) return;
-    snake.direction = direction;
-  }
-
-  changeSnakeDirectionByKey(snake: Snake, level: Level, key: string): void {
-    switch (key) {
-      case 'ArrowUp':
-        this.changeSnakeDirection(snake, level, Direction.up)
-        break;
-      case 'ArrowDown':
-        this.changeSnakeDirection(snake, level, Direction.down)
-        break;
-      case 'ArrowLeft':
-        this.changeSnakeDirection(snake, level, Direction.left)
-        break;
-      case 'ArrowRight':
-        this.changeSnakeDirection(snake, level, Direction.right)
-        break;
-    }
-  }
-
   updateSnake(snake: Snake): void {
     this.updateHeadBlock(snake);
     this.updateBodyBlockPositions(snake);
@@ -146,8 +131,8 @@ export class SnakeService {
   }
 
   takeDamage(snake: Snake, amount: number): void {
-    if (amount >= snake.body.length - 1) return;
-    snake.body.splice(snake.body.length - 1 - amount);
+    if (amount > snake.body.length - 1) return;
+    snake.body.splice(snake.body.length - amount);
     this.updateTailBlock(snake);
   }
 
@@ -207,34 +192,6 @@ export class SnakeService {
     snake.tail.currentPosition = { ...lastBodyBlock.previousPosition };
     snake.tail.currentDirection = 
       this.utility.getDirection(snake.tail.currentPosition, lastBodyBlock.currentPosition);
-  }
-  
-  //===========================================================================
-  //  Snake Collisions
-  //===========================================================================
-
-  isCollisionDetected(snake: Snake, level: Level): boolean {
-    const nextHeadPosition: Position = 
-      this.utility.shiftPosition(snake.head.currentPosition, snake.direction);
-    if (this.isSelfCollisionDetected(snake, nextHeadPosition)) return true;
-    if (this.areConstraintsHit(level.constraints, nextHeadPosition)) return true;
-    return false;
-  }
-
-  private isSelfCollisionDetected(snake: Snake, head: Position): boolean {
-    for (let block of [...snake.body, snake.tail]) {
-      if (this.utility.isSamePosition(block.currentPosition, head)) 
-        return true;
-    }
-    return false;
-  }
-
-  private areConstraintsHit(constraints: Constraints, head: Position): boolean {
-    for (let obstacle of constraints.obstacles) {
-      if (this.utility.isSamePosition(obstacle.position, head)) return true;
-    }
-    return head.x < constraints.xmin || head.x > constraints.xmax
-      || head.y < constraints.ymin || head.y > constraints.ymax;
   }
 
 }

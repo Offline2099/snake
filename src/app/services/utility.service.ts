@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Direction } from '../constants/direction.enum';
-import { Position } from '../types/position.interface';
+import { Position } from '../types/general/position.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilityService {
 
+  /** Returns a deep copy of an object. */
   deepCopy<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
   }
@@ -49,6 +50,10 @@ export class UtilityService {
     return newPosition;
   }
 
+  /** 
+   * Returns an array of all positions adjacent to the specified one
+   * within the given margin, including the position itself.
+   */
   neighborhood(position: Position, margin: number): Position[] {
     const neighborhood: Position[] = [];
     for (let x = position.x - margin; x <= position.x + margin; x++) {

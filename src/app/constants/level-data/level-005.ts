@@ -1,5 +1,5 @@
-import { Level } from '../../types/level';
 import { Direction } from '../direction.enum';
+import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_5: Partial<Level> = {
   name: 'Broken Loop',
