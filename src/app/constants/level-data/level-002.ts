@@ -3,6 +3,11 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_2: Partial<Level> = {
   name: 'First Time Outside',
+  instructions: [
+    'Keep collecting food. More will appear as you proceed.',
+    'Always avoid rocks. They are as deadly as the walls.',
+    'Piles are nasty but less dangerous. They cause 2 nature damage.'
+  ],
   settings: {
     goal: 40,
     food: {

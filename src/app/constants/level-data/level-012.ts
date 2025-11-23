@@ -3,6 +3,9 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_12: Partial<Level> = {
   name: 'Order and Chaos',
+  instructions: [
+    'You are a snake. You can maneuver through tight spaces.'
+  ],
   settings: {
     goal: 30,
     food: {

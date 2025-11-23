@@ -3,6 +3,12 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_6: Partial<Level> = {
   name: 'Scattered Mess',
+  instructions: [
+    'Navigate the dangerous environment while collecting food.',
+    'Always avoid rocks. They are as deadly as walls.',
+    'Fires cause 5 fire damage.',
+    'Piles cause 2 nature damage.'
+  ],
   settings: {
     goal: 40,
     food: {

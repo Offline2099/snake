@@ -5,6 +5,10 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_13: Partial<Level> = {
   name: 'Tricky Corners',
+  instructions: [
+    'Collect all the food to complete the level.',
+    'Be extra careful, no room for a mistake here.'
+  ],
   settings: {
     goal: 30,
     food: {

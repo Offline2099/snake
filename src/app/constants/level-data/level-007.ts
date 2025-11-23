@@ -4,6 +4,10 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_7: Partial<Level> = {
   name: 'The Temple',
+  instructions: [
+    'Keep collecting food and avoiding the walls.',
+    'Don\'t be naughty in the temple.'
+  ],
   settings: {
     goal: 50,
     food: {

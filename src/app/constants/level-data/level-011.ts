@@ -4,6 +4,9 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_11: Partial<Level> = {
   name: 'A Long Trip',
+  instructions: [
+    'The food is abundant in this land. And not only the food. Things are getting a bit more challenging.'
+  ],
   settings: {
     goal: 80,
     food: {

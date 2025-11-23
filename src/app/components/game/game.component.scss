@@ -29,16 +29,39 @@ h2 {
 .side-column {
   width: 250px;
   padding: 10px;
-  div {
-    border-bottom: 1px solid #222;
+}
+
+.section {
+  margin: 5px 0;
+}
+
+.section-line {
+  display: flex;
+  font-size: 15px;
+  border-bottom: 1px solid #222;
+  span:last-child{
+    margin-left: auto;
   }
 }
 
 h3 {
-  margin-top: 50px;
+  margin-top: 40px;
+  margin-bottom: 5px;
   border-bottom: 1px solid #444;
 }
 
+ul {
+  margin: 10px 0 0 20px;
+  font-size: 15px;
+  li {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #222;
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+}
 
 .progress {
   display: flex;

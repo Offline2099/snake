@@ -3,6 +3,10 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_8: Partial<Level> = {
   name: 'Portal Time',
+  instructions: [
+    'Learn how the portals work and use them to access areas that would otherwise be out of reach.',
+    'Collect all the food to complete the level.'
+  ],
   settings: {
     goal: 40,
     food: {

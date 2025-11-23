@@ -10,10 +10,13 @@ import { SNAKE_END_BLOCK_CLASS } from '../../constants/blocks/snake/snake-end-bl
 import { SNAKE_BODY_BLOCK_CLASS } from '../../constants/blocks/snake/snake-body-block-class';
 import { GameBlockType } from '../../constants/blocks/game-block-type.enum';
 import { PortalType } from '../../constants/blocks/level/portal-type.enum';
+import { EnemyType } from '../../constants/blocks/level/enemy-type.enum';
 // Interfaces & Types
 import { Snake } from '../../types/snake/snake.interface.ts';
 import { Level } from '../../types/level/level.interface';
 import { Game } from '../../types/game/game.interface';
+// Pipes
+import { SecondsAsTimePipe } from '../../pipes/seconds-as-time.pipe';
 // Services
 import { SnakeService } from '../../services/snake.service';
 import { LevelService } from '../../services/level.service';
@@ -21,7 +24,7 @@ import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-game',
-  imports: [NgClass, NgStyle, NgTemplateOutlet],
+  imports: [NgClass, NgStyle, NgTemplateOutlet, SecondsAsTimePipe],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
 })
@@ -37,6 +40,7 @@ export class GameComponent {
   readonly Direction = Direction;
   readonly GameBlockType = GameBlockType;
   readonly PortalType = PortalType;
+  readonly EnemyType = EnemyType;
   readonly BLOCK_CLASS = BLOCK_CLASS;
   readonly SNAKE_END_BLOCK_CLASS = SNAKE_END_BLOCK_CLASS;
   readonly SNAKE_BODY_BLOCK_CLASS = SNAKE_BODY_BLOCK_CLASS;

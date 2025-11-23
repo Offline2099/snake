@@ -22,6 +22,7 @@ export class LevelService {
   createLevel(data: Partial<Level>): Level {
     const level: Level = {
       name: data.name || '',
+      instructions: data.instructions,
       settings: this.utility.deepCopy(data.settings!),
       constraints: data.constraints
         ? this.utility.deepCopy(data.constraints) 

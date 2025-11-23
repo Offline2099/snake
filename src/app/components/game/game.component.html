@@ -5,22 +5,99 @@
 
 <div class="wrapper">
 
+  <!-- Stats -->
   <div class="side-column">
+
+    <!-- Snake Stats -->
     <h3>Snake</h3>
-    <div>Current length: {{snake.body.length + 2}}</div>
-    <div>Distance travelled: {{game.stepsDone}}</div>
-    <div>Food consumed: {{game.foodConsumed}}</div>
-    <div>Piles hit: {{game.pilesHit}}</div>
-    <div>Fires hit: {{game.firesHit}}</div>
-    <div>Total damage: {{game.damageTaken}}</div>
-    <div>Nature damage: {{game.natureDamageTaken}}</div>
-    <div>Fire damage: {{game.fireDamageTaken}}</div>
+    <div class="section">
+      <div class="section-line">
+        <span>Distance traveled:</span>
+        <span>{{game.stepsDone}}</span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-line"> 
+        <span>Current length:</span>
+        <span>{{snake.body.length + 2}}</span>
+      </div>
+      <div class="section-line"> 
+        <span>Food consumed:</span>
+        <span>{{game.foodConsumed}}</span>
+      </div>
+    </div>
+    @if (level.settings.enemies) {
+      <div class="section">
+        @if (level.settings.enemies[EnemyType.pile]) {
+          <div class="section-line"> 
+            <span>Piles hit:</span>
+            <span>{{game.pilesHit}}</span>
+          </div>
+        }
+        @if (level.settings.enemies[EnemyType.fire]) {
+          <div class="section-line"> 
+            <span>Fires hit:</span>
+            <span>{{game.firesHit}}</span>
+          </div>
+        }
+      </div>
+      <div class="section">
+        @if (level.settings.enemies[EnemyType.pile]) {
+          <div class="section-line"> 
+            <span>Nature damage:</span>
+            <span>{{game.natureDamageTaken}}</span>
+          </div>
+        }
+        @if (level.settings.enemies[EnemyType.fire]) {
+          <div class="section-line"> 
+            <span>Fire damage:</span>
+            <span>{{game.fireDamageTaken}}</span>
+          </div>
+        }
+        <div class="section-line">
+          <span>Total damage:</span>
+          <span>{{game.damageTaken}}</span>
+        </div>
+      </div>
+    }
+       
     <h3>Environment</h3>
-    <div>Elapsed time: {{game.elapsedTime}}</div>
-    <div>Food total: {{level.food.length}}</div>
-    <div>Piles: {{game.piles}}</div>
-    <div>Fires: {{game.fires}}</div>
-    <div>Portals: {{level.portals?.length || 0}}</div>
+    <div class="section">
+      <div class="section-line">
+        <span>Elapsed time:</span>
+        <span>{{game.elapsedTime | secondsAsTime }}</span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-line"> 
+        <span>Food available:</span>
+        <span>{{game.foodTotal}}</span>
+      </div>
+    </div>
+    @if (level.settings.enemies) {
+      <div class="section">
+        @if (level.settings.enemies[EnemyType.pile]) {
+          <div class="section-line"> 
+            <span>Piles:</span>
+            <span>{{game.piles}}</span>
+          </div>
+        }
+        @if (level.settings.enemies[EnemyType.fire]) {
+          <div class="section-line"> 
+            <span>Fires:</span>
+            <span>{{game.fires}}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (level.portals) {
+      <div class="section">
+        <div class="section-line"> 
+          <span>Portals:</span>
+          <span>{{level.portals.length}}</span>
+        </div>
+      </div>
+    }    
   </div>
 
   <div class="main-column">
@@ -138,6 +215,15 @@
       <button type="button" (click)="showMenu()">Menu</button>
     </div>
 
+  </div>
+
+  <div class="side-column">
+    <h3>Instructions</h3>
+    <ul>
+      @for (instruction of level.instructions; track $index) {
+        <li>{{instruction}}</li>
+      }
+    </ul>
   </div>
 
 </div>

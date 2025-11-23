@@ -4,6 +4,9 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_15: Partial<Level> = {
   name: 'The Catacombs',
+  instructions: [
+    'Beat the final challenge to complete the game. Good luck!'
+  ],
   settings: {
     goal: 50,
     food: {

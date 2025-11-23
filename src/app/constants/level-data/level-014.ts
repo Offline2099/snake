@@ -4,6 +4,11 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_14: Partial<Level> = {
   name: 'Twisted Confusion',
+  instructions: [
+    'Keep collecting the food.',
+    'Don\'t get trapped.',
+    'Try not to lose your sanity.'
+  ],
   settings: {
     goal: 50,
     food: {

@@ -3,6 +3,9 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_10: Partial<Level> = {
   name: 'This is Fine',
+  instructions: [
+    'Keep calm and carry on.'
+  ],
   settings: {
     goal: 40,
     food: {

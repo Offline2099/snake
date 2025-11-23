@@ -3,6 +3,10 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_9: Partial<Level> = {
   name: 'Four Chambers',
+  instructions: [
+    'Collect all available food.',
+    'Use the portals wisely.'
+  ],
   settings: {
     goal: 40,
     food: {

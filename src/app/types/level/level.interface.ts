@@ -7,6 +7,7 @@ import { SnakeFood } from './snake-food.interface';
 
 export interface Level {
   name: string;
+  instructions?: string[];
   settings: LevelSettings;
   constraints: Constraints;
   obstacles?: LevelObstacles;

@@ -4,6 +4,10 @@ import { Level } from '../../types/level/level.interface';
 
 export const LEVEL_3: Partial<Level> = {
   name: 'Ancient Ruins',
+  instructions: [
+    'Explore the ruins while collecting food.',
+    'Avoid walls, rocks, and other dangers.'
+  ],
   settings: {
     goal: 30,
     food: {
