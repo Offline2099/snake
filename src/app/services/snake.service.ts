@@ -114,9 +114,8 @@ export class SnakeService {
 
   updateSnake(snake: Snake): void {
     this.updateHeadBlock(snake);
-    this.updateBodyBlockPositions(snake);
+    this.updateBodyBlocks(snake);
     this.updateTailBlock(snake);
-    this.updateBodyBlockTypes(snake);
   }
 
   growSnake(snake: Snake): void {
@@ -166,22 +165,15 @@ export class SnakeService {
     snake.head.currentDirection = snake.direction;
   }
 
-  private updateBodyBlockPositions(snake: Snake): void {
+  private updateBodyBlocks(snake: Snake): void {
     snake.body.forEach((block, index) => {
       const previous: SnakeBlock = this.previousBlock(snake, index);
-      block.previousPosition = { ...block.currentPosition };
-      block.currentPosition = { ...previous.previousPosition }; 
-    });
-  }
-
-  private updateBodyBlockTypes(snake: Snake): void {
-    snake.body.forEach((block, index) => {
-      const previous: SnakeBlock = this.previousBlock(snake, index);
-      const next: SnakeBlock = this.nextBlock(snake, index);
       block.type = this.bodyBlockType(
-        this.utility.getDirection(block.currentPosition, previous.currentPosition),
-        this.utility.getDirection(block.currentPosition, next.currentPosition)
+        this.utility.getDirection(previous.previousPosition, previous.currentPosition),
+        this.utility.getDirection(previous.previousPosition, block.currentPosition)
       );
+      block.previousPosition = { ...block.currentPosition };
+      block.currentPosition = { ...previous.previousPosition };
     });
   }
 
