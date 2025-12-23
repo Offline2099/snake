@@ -1,14 +1,16 @@
+@use '../../styles' as *;
+
 :host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  background: url('/backgrounds/menu.webp');
+  background-size: 256px 128px;
+  @include page;
 }
 
 .wrapper {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   width: 1200px;
-  margin: 10px auto;
+  margin: 50px auto;
   gap: 10px;
 }
 

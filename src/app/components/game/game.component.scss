@@ -1,14 +1,18 @@
 @use 'sass:color';
+@use '../../styles' as *;
 
 :host {
-  display: flex;
-  flex-direction: column;
+  background: url('/backgrounds/level.webp');
+  background-size: 256px;
+  @include page;
 }
 
-
 h2 {
+  margin: 30px 0;
   text-align: center;
   color: #bbb;
+  font-size: 28px;
+  letter-spacing: .02em;
 }
 
 .wrapper {
@@ -37,8 +41,9 @@ h2 {
 
 .section-line {
   display: flex;
-  font-size: 15px;
   border-bottom: 1px solid #222;
+  font-size: 15px;
+  letter-spacing: .05em;
   span:last-child{
     margin-left: auto;
   }
@@ -68,8 +73,8 @@ ul {
   max-width: calc(512px + 32px);
   padding: 5px 10px;
   gap: 10px;
-  background-color: #222;
-  
+  border-radius: 5px;
+  background-color: #282828;
 }
 
 .label {
@@ -306,13 +311,14 @@ $snake-success-color: green;
 
 
 .controls {
+  position: relative;
   display: flex;
   width: 100%;
-  margin-top: 20px;
-  justify-content: center;
+  margin-top: 8px;
+  justify-content: space-around;
   align-items: center;
   gap: 10px;
-  & > button {
+  & button {
     padding: 5px 10px;
     border-radius: 5px;
     background-color: #333;
@@ -321,6 +327,35 @@ $snake-success-color: green;
   }
 }
 
+.controls-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: #111;
+  animation: grow .2s;
+}
+
+.overlay-header {
+  width: 80%;
+  padding-bottom: 2px;
+  border-bottom: 1px solid;
+  font-size: 20px;
+  text-align: center;
+}
+
+.overlay-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
 
 
 

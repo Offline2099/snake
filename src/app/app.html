@@ -1,13 +1,5 @@
-<header>
-  <h1>Snake</h1>
-</header>
-
-<main>
-  @if (isMenuActive) {
-    <app-menu (selected)="startLevel($event)" />
-  } @else {
-    <app-game [levelId]="levelId" (nextLevel)="startLevel($event)" (menu)="showMenu()" />
-  }
-</main>
-
-<footer></footer>
+@if (isMenuActive) {
+  <app-menu (selected)="startLevel($event)" />
+} @else {
+  <app-game [levelId]="levelId" (nextLevel)="startLevel($event)" (menu)="showMenu()" />
+}

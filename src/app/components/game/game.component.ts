@@ -36,6 +36,7 @@ export class GameComponent {
     this.gameService.changeSnakeDirectionByKey(this.game, this.snake, event.key);
   }
 
+  readonly LEVELS = LEVELS;
   readonly BLOCK_SIZE = BLOCK_SIZE;
   readonly Direction = Direction;
   readonly GameBlockType = GameBlockType;
