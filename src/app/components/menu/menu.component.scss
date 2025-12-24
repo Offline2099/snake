@@ -21,7 +21,34 @@
   align-items: center;
   height: 200px;
   border-radius: 10px;
-  background: #222;
+  background: #223322;
   color: #aaa;
   cursor: pointer;
+  transition: .2s;
+  &.locked {
+    pointer-events: none;
+    background: #332222;
+  }
+  @include hover {
+    filter: brightness(1.1);
+  }
+}
+
+.block-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  &.lock {
+    filter: brightness(.7);
+  }
+}
+
+.level-name {
+  font-size: 20px;
+  letter-spacing: .05em;
+}
+
+.progress-record {
+  margin-top: 20px;
+  color: #999;
 }

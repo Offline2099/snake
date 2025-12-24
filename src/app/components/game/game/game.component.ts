@@ -3,10 +3,12 @@ import { Subscription, interval } from 'rxjs';
 // Constants & Enums
 import { Direction } from '../../../constants/direction.enum';
 import { LEVELS } from '../../../constants/levels';
+import { STORAGE_KEY } from '../../../constants/storage';
 // Interfaces & Types
 import { Snake } from '../../../types/snake/snake.interface.ts';
 import { Level } from '../../../types/level/level.interface';
 import { Game } from '../../../types/game/game.interface';
+import { LevelState } from '../../../types/level/level-state.interface';
 // Components
 import { GameStatsComponent } from '../game-stats/game-stats.component';
 import { GameProgressComponent } from '../game-progress/game-progress.component';
@@ -80,7 +82,22 @@ export class GameComponent {
 
   processGameStep(game: Game, snake: Snake, level: Level): void {
     this.gameService.processStep(game, snake, level);
-    if (this.game.isFail || this.game.isVictory) this.stopTimer();
+    if (this.game.isFail || this.game.isVictory) {
+      this.stopTimer();
+      this.updateLevelState(game, this.levelId());
+    }
+  }
+
+  updateLevelState(game: Game, id: number): void {
+    const data: LevelState[] = JSON.parse(localStorage.getItem(STORAGE_KEY)!);    
+    if (game.isVictory) {
+      data[id].isComplete = true;
+      if (data[id].bestTime > game.elapsedTime || !data[id].bestTime) data[id].bestTime = game.elapsedTime;
+      if (id !== LEVELS.length - 1) data[id + 1].isLocked = false;
+      this.levelService.updateLevelState(id + 1, { ...data[id + 1] });
+    }
+    if (data[id].bestProgress < game.progress) data[id].bestProgress = game.progress;
+    this.levelService.updateLevelState(id, { ...data[id] });
   }
 
   changeDirection(direction: Direction): void {

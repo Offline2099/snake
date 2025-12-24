@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Direction } from '../constants/direction.enum';
 import { DEFAULT_CONSTRAINTS } from '../constants/defaults';
 import { ObstacleType } from '../constants/blocks/level/obstacle-type.enum.js';
+import { STORAGE_KEY } from '../constants/storage';
 // Interfaces & Types
 import { Position } from '../types/general/position.interface';
 import { Line } from '../types/general/line.interface.js';
 import { Level } from '../types/level/level.interface.js';
 import { LevelObstacles } from '../types/level/obstacles/level-obstacles.interface.js';
 import { RockField } from '../types/level/obstacles/rock-field.interface.js';
+import { LevelState } from '../types/level/level-state.interface';
 // Services
 import { UtilityService } from './utility.service';
 
@@ -33,6 +35,15 @@ export class LevelService {
     };
     this.setObstacles(level, data.obstacles);
     return level;
+  }
+
+  updateLevelState(id: number, newState: Partial<LevelState>): void {
+    const data: LevelState[] = JSON.parse(localStorage.getItem(STORAGE_KEY)!);
+    data[id] = {
+      ...data[id],
+      ...newState
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 
   private setObstacles(level: Level, obstacles?: LevelObstacles): void {

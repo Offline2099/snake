@@ -1,8 +1,29 @@
 <div class="wrapper">
   @for (level of levels; track $index) {
-    <div class="level-block" (click)="selectLevel(level)">
-      <div>Level {{level + 1}}</div>
-      <div>{{LEVELS[level].name}}</div>
+    <div class="level-block" [ngClass]="{'locked': level.state.isLocked}" (click)="selectLevel($index)">
+      @if (level.state.isLocked) {
+        <img class="block-icon lock" src="icons/lock.webp" alt="" />
+      } @else {
+        @if (level.state.isComplete) {
+          <img class="block-icon" src="icons/checkmark.webp" alt="" />
+        }        
+      }
+      <div>Level {{$index + 1}}</div>
+      <div class="level-name">{{level.name}}</div>
+      @if (!level.state.isLocked) {
+        @if (level.state.isComplete) {
+          <div class="progress-record">Best Time: {{level.state.bestTime | secondsAsTime}}</div>
+        } @else {
+          @if (level.state.bestProgress) {
+            <div class="progress-record">
+              <ng-container>Best Attempt: </ng-container>
+              <ng-container>{{level.state.bestProgress}}</ng-container>
+              <ng-container>&hairsp;/&hairsp;</ng-container>
+              <ng-container>{{level.settings?.goal}}</ng-container>
+            </div>
+          }
+        }
+      }
     </div>
   }
 </div>

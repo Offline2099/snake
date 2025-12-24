@@ -1,4 +1,5 @@
 import { Level } from '../../types/level/level.interface';
+import { DEFAULT_LEVEL_STATE } from '../defaults';
 
 export const LEVEL_1: Partial<Level> = {
   name: 'Baby Steps',
@@ -14,5 +15,9 @@ export const LEVEL_1: Partial<Level> = {
       initialAmount: 10,
       spawnOnConsumption: 1
     }
+  },
+  state: {
+    ...DEFAULT_LEVEL_STATE,
+    isLocked: false
   }
 }

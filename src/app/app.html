@@ -1,5 +1,5 @@
 @if (isMenuActive) {
   <app-menu (selected)="startLevel($event)" />
 } @else {
-  <app-game [levelId]="levelId" (nextLevel)="startLevel($event)" (menu)="showMenu()" />
+  <app-game [levelId]="levelId" (menu)="showMenu()" />
 }
