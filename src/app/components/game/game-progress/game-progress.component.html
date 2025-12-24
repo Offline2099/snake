@@ -1,0 +1,8 @@
+<div class="label">Progress: </div>
+<div class="progress-bar-outer">
+  <div class="progress-bar-inner" [ngStyle]="{'width': game().percentage + '%'}"></div>
+</div>
+<div class="label value">
+  <div class="absolute">{{game().progress}} / {{level().settings.goal}}</div>
+  <div class="percentage">({{game().percentage}}%)</div>
+</div>

@@ -1,0 +1,93 @@
+<!-- Game Area -->
+<div class="game-area" [ngClass]="{'fail': game().isFail, 'success': game().isVictory}">
+
+  <!-- Obstacles -->
+  @for (obstacle of level().constraints.obstacles; track $index) {
+    <ng-template
+      [ngTemplateOutlet]="gameBlock"
+      [ngTemplateOutletContext]="{
+        position: obstacle.position,
+        class: BLOCK_CLASS[GameBlockType.obstacle][obstacle.type]
+      }"
+    />
+  }
+
+  <!-- Portals -->
+  @for (portal of level().portals; track $index) {
+    <ng-template
+      [ngTemplateOutlet]="gameBlock"
+      [ngTemplateOutletContext]="{
+        position: portal.entrance,
+        class: BLOCK_CLASS[GameBlockType.portal][PortalType.entrance]
+      }"
+    />
+    <ng-template
+      [ngTemplateOutlet]="gameBlock"
+      [ngTemplateOutletContext]="{
+        position: portal.exit,
+        class: BLOCK_CLASS[GameBlockType.portal][PortalType.exit]
+      }"
+    />
+  }
+
+  <!-- Enemies, Food -->
+  @for (column of game().space; track $index; let x = $index) {
+    @for (block of column; track $index; let y = $index) {
+      @if (game().space[x][y].type === GameBlockType.enemy) {
+        <ng-template
+          [ngTemplateOutlet]="gameBlock"
+          [ngTemplateOutletContext]="{ 
+            position: { x, y },
+            class: BLOCK_CLASS[GameBlockType.enemy][block.subType!]
+          }"
+        />
+      }
+      @if (game().space[x][y].type === GameBlockType.food) {
+        <ng-template
+          [ngTemplateOutlet]="gameBlock"
+          [ngTemplateOutletContext]="{
+            position: { x, y },
+            class: BLOCK_CLASS[GameBlockType.food]
+          }"
+        />
+      }
+    }
+  }
+
+  <!-- Snake -->
+  <ng-template
+    [ngTemplateOutlet]="gameBlock"
+    [ngTemplateOutletContext]="{
+      position: snake().head.currentPosition,
+      class: 'snake-block head ' + SNAKE_END_BLOCK_CLASS[snake().head.currentDirection]
+    }"
+  />
+  @for (block of snake().body; track $index) {
+    <ng-template
+      [ngTemplateOutlet]="gameBlock"
+      [ngTemplateOutletContext]="{
+        position: block.currentPosition,
+        class: 'snake-block ' + SNAKE_BODY_BLOCK_CLASS[block.type]
+      }"
+    />
+  }
+  <ng-template
+    [ngTemplateOutlet]="gameBlock"
+    [ngTemplateOutletContext]="{
+      position: snake().tail.currentPosition,
+      class: 'snake-block tail ' + SNAKE_END_BLOCK_CLASS[snake().tail.currentDirection]
+    }"
+  />
+
+</div>
+
+<!-- Game Block Template -->
+<ng-template #gameBlock let-position="position" let-class="class"> 
+  <div
+    class="game-block {{class}}"
+    [ngStyle]="{
+      'left.px': BLOCK_SIZE * position.x,
+      'bottom.px': BLOCK_SIZE * position.y
+    }">
+  </div>
+</ng-template>

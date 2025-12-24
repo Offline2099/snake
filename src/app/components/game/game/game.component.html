@@ -1,0 +1,37 @@
+<!-- Level Header -->
+<div>
+  <h2>Level {{levelId() + 1}}: {{level.name}}</h2>
+</div>
+
+<div class="wrapper">
+
+  <!-- Left Column -->
+  <div class="side-column">
+    <app-game-stats [game]="game" [level]="level" [snake]="snake" />
+  </div>
+
+  <!-- Central Column -->
+  <div class="main-column">
+    <app-game-progress [game]="game" [level]="level" />
+    <app-game-area [game]="game" [level]="level" [snake]="snake" />
+    <app-game-controls 
+      [game]="game"
+      (start)="startTimer()"
+      (pause)="stopTimer()"
+      (reset)="resetGame()"
+      (toMenu)="showMenu()"
+      (directionChange)="changeDirection($event)"
+    />
+  </div>
+
+  <!-- Right Column -->
+  <div class="side-column">
+    <h3>Instructions</h3>
+    <ul>
+      @for (instruction of level.instructions; track $index) {
+        <li>{{instruction}}</li>
+      }
+    </ul>
+  </div>
+
+</div>

@@ -1,0 +1,28 @@
+<button type="button" (click)="startGame()">Start</button>
+<div class="direction-button-container">
+  <button type="button" class="up" (click)="changeDirection(Direction.up)"></button>
+  <button type="button" class="down" (click)="changeDirection(Direction.down)"></button>
+  <button type="button" class="left" (click)="changeDirection(Direction.left)"></button>
+  <button type="button" class="right" (click)="changeDirection(Direction.right)"></button>
+</div>
+<button type="button" (click)="showMenu()">Menu</button>
+
+@if (game().isFail) {
+  <div class="controls-overlay fail">
+    <div class="overlay-header">FAIL</div>
+    <div class="overlay-buttons">
+      <button type="button" (click)="resetGame()">Try Again</button>
+      <button type="button" (click)="showMenu()">Menu</button>
+    </div>
+  </div>
+}
+
+@if (game().isVictory) {
+  <div class="controls-overlay victory">
+    <div class="overlay-header">VICTORY</div>
+    <div class="overlay-buttons">
+      <button type="button" (click)="resetGame()">Play Again</button>
+      <button type="button" (click)="showMenu()">Continue</button>
+    </div>
+  </div>
+}

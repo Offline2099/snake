@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  max-width: calc(512px + 32px);
+  padding: 5px 10px;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: #282828;
+}
+
+.label {
+  display: flex;
+  color: #bbb;
+  &.value {
+    margin-left: auto;
+  }
+  .absolute {
+    width: 80px;
+    text-align: center;
+  }
+  .percentage {
+    width: 50px;
+    text-align: center;
+  }
+}
+
+.progress-bar-outer {
+  display: flex;
+  flex-grow: 1;
+  border-radius: 5px;
+  background-color: #333;
+}
+
+.progress-bar-inner {
+  background-color: green;
+  border-radius: 5px;
+}

@@ -1,0 +1,32 @@
+.section {
+  margin: 5px 0;
+}
+
+.section-line {
+  display: flex;
+  border-bottom: 1px solid #222;
+  font-size: 15px;
+  letter-spacing: .05em;
+  span:last-child{
+    margin-left: auto;
+  }
+}
+
+h3 {
+  margin-top: 40px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #444;
+}
+
+ul {
+  margin: 10px 0 0 20px;
+  font-size: 15px;
+  li {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #222;
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+}

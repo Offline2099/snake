@@ -1,0 +1,35 @@
+@use '../../../styles' as *;
+
+:host {
+  background: url('/backgrounds/level.webp');
+  background-size: 256px;
+  @include page;
+}
+
+h2 {
+  margin: 30px 0;
+  text-align: center;
+  color: #bbb;
+  font-size: 28px;
+  letter-spacing: .02em;
+}
+
+.wrapper {
+  display: flex;
+  flex-shrink: 1;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+.side-column,
+.main-column {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  color: #aaa;
+}
+
+.side-column {
+  width: 250px;
+  padding: 10px;
+}
